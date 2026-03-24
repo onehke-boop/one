@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>哑铃练背计划</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#07090f;color:#e4e4e7;font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',-apple-system,sans-serif;min-height:100vh;max-width:500px;margin:0 auto}
+.hd{background:linear-gradient(180deg,#0f1320,#07090f);padding:20px 20px 14px;border-bottom:1px solid rgba(255,107,53,.1);position:sticky;top:0;z-index:100}
+.hd-row{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#ff6b35,#ff9a5c);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0}
+.hd h1{font-size:20px;font-weight:700;color:#fff}
+.hd .sub{font-size:12px;color:#6b7280;margin-top:2px}
+.pbar-wrap{margin-top:14px}
+.pbar-info{display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-bottom:5px}
+.pbar{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.pfill{height:100%;border-radius:3px;background:linear-gradient(90deg,#ff6b35,#ffb088);transition:width .5s}
+
+.pills{display:flex;gap:8px;padding:14px 20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#9ca3af;font-size:13px;cursor:pointer;white-space:nowrap;transition:all .25s;position:relative;font-family:inherit}
+.pill.on{border:none;background:linear-gradient(135deg,#ff6b35,#ff9a5c);color:#fff;font-weight:600}
+.badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:50%;background:#ff6b35;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #07090f}
+.badge.dn{background:#22c55e}
+
+.mn{padding:0 20px 40px}
+
+.card{border-radius:18px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.06);margin-bottom:14px}
+.vid-box{position:relative;width:100%;background:#0a0a0a}
+.vid-box video{width:100%;display:block;background:#111;border-radius:0}
+.angle-bar{position:absolute;bottom:12px;right:12px;display:flex;gap:4px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);border-radius:10px;padding:3px;z-index:3}
+.angle-btn{padding:6px 14px;border-radius:8px;border:none;background:transparent;color:#888;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.angle-btn.on{background:rgba(255,107,53,.9);color:#fff}
+.vbadge{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border-radius:8px;padding:4px 10px;font-size:11px;color:#ff9a5c;font-weight:600;z-index:3}
+.vtitle{padding:14px 16px;background:linear-gradient(180deg,#111420,#07090f)}
+.vtitle h2{font-size:21px;font-weight:700;color:#fff}
+.vtitle .en{margin-top:3px;font-size:13px;color:#ff9a5c;font-weight:500}
+
+.dots{display:flex;gap:8px;padding:0 0 14px;flex-wrap:wrap}
+.dot{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#555;cursor:pointer;transition:all .3s;user-select:none}
+.dot.dn{background:linear-gradient(135deg,#ff6b35,#ff9a5c);border-color:transparent;color:#fff}
+.dot.alldn{background:linear-gradient(135deg,#22c55e,#16a34a)}
+
+.btn{width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,#ff6b35,#e05a28);color:#fff;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .3s;margin-bottom:14px;font-family:inherit}
+.btn:active{transform:scale(.98)}
+.btn.alldn{background:linear-gradient(135deg,#22c55e,#16a34a)}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.st{background:rgba(255,255,255,.03);border-radius:14px;padding:13px 15px;border:1px solid rgba(255,255,255,.06)}
+.st-l{font-size:11px;color:#6b7280;margin-bottom:5px;font-weight:500}
+.st-v{font-size:14px;color:#e4e4e7;font-weight:600;line-height:1.4}
+.st-s{font-size:11px;color:#ff9a5c;margin-top:2px}
+
+.kp{background:linear-gradient(135deg,rgba(255,107,53,.08),rgba(255,107,53,.03));border-radius:14px;padding:13px 15px;border:1px solid rgba(255,107,53,.12);margin-bottom:12px;font-size:13px;color:#ffb088;font-weight:600;line-height:1.5}
+
+.tips-box{background:rgba(255,255,255,.025);border-radius:14px;border:1px solid rgba(255,255,255,.06);margin-bottom:14px;overflow:hidden}
+.tips-hd{width:100%;padding:13px 15px;background:none;border:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:inherit}
+.tips-hd span:first-child{font-size:14px;font-weight:600;color:#fff}
+.tips-hd span:last-child{font-size:12px;color:#6b7280;transition:transform .2s}
+.tips-hd span:last-child.open{transform:rotate(180deg)}
+.tips-body{padding:0 15px 15px;display:none}
+.tips-body.show{display:block}
+.tr{display:flex;gap:10px;margin-bottom:9px}
+.tr:last-child{margin-bottom:0}
+.tn{flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:rgba(255,107,53,.12);color:#ff6b35;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.tt{font-size:13px;color:#a1a1aa;line-height:1.5}
+
+.nav{display:flex;gap:10px;margin-bottom:20px}
+.nb{flex:1;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#9ca3af;font-size:14px;cursor:pointer;font-weight:500;text-align:center;font-family:inherit;transition:all .2s}
+.nb:active:not(:disabled){background:rgba(255,255,255,.08)}
+.nb:disabled{color:#333;cursor:default}
+
+.ft{margin-top:8px;padding:15px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
+.ft h3{font-size:13px;font-weight:600;color:#ff9a5c;margin-bottom:8px}
+.ft div{font-size:12px;color:#6b7280;line-height:1.8}
+.credit{text-align:center;margin-top:16px;font-size:10px;color:#333}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="hd-row">
+    <div class="logo">背</div>
+    <div>
+      <h1>哑铃练背计划</h1>
+      <p class="sub">6 个动作 · 真人视频循环演示 · 正面/侧面切换</p>
+    </div>
+  </div>
+  <div class="pbar-wrap">
+    <div class="pbar-info"><span>训练进度</span><span id="ptxt">0/20 组</span></div>
+    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="pills" id="pills"></div>
+<div class="mn" id="mn"></div>
+
+<script>
+var E=[
+{id:1,n:"单臂哑铃划船",en:"Single-Arm Dumbbell Row",
+tgt:"背阔肌、菱形肌、后三角",sets:"4组 × 10-12次/侧",wt:"中等重量",mx:4,
+tips:["非工作手和同侧膝盖撑在平凳上，背部保持水平","哑铃拉向髋部方向，不是胸部，手肘贴近身体","顶峰收缩停顿1秒，感受背阔肌挤压，慢放3秒","躯干保持稳定，不要旋转借力，核心全程收紧"],
+kp:"练背王牌动作，能孤立刺激单侧背阔肌",
+front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-kneeling-single-arm-row-front.mp4",
+side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-kneeling-single-arm-row-side.mp4"},
+
+{id:2,n:"俯身双臂划船",en:"Bent-Over Dumbbell Row",
+tgt:"背阔肌、斜方肌中下束、菱形肌",sets:"4组 × 8-12次",wt:"中等偏重",mx:4,
+tips:["双脚与肩同宽，俯身约45度，膝盖微曲","双手握哑铃自然下垂，掌心相对","肩胛骨先收紧，再发力将哑铃拉向腹部","手肘贴近身体两侧，不要外展"],
+kp:"双臂同时训练，效率高，适合冲重量",
+front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-row-bilateral-front.mp4",
+side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-row-bilateral-side.mp4"},
+
+{id:3,n:"哑铃罗马尼亚硬拉",en:"Dumbbell Romanian Deadlift",
+tgt:"竖脊肌、臀大肌、腘绳肌",sets:"3组 × 10-12次",wt:"中等偏重",mx:3,
+tips:["双手持哑铃于身体前侧，双脚与髋同宽","臀部往后推，不是弯腰，像要坐到身后的椅子","哑铃贴近大腿前侧下滑，感受腘绳肌拉伸","全程腰背挺直，核心收紧，下放到小腿中段即可"],
+kp:"后链之王，强化下背和核心稳定性",
+front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-front.mp4",
+side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-side.mp4"},
+
+{id:4,n:"俯身反向飞鸟",en:"Dumbbell Rear Delt Fly",
+tgt:"后三角肌、菱形肌、斜方肌中束",sets:"3组 × 12-15次",wt:"轻重量",mx:3,
+tips:["俯身至躯干接近与地面平行","双手持哑铃下垂，掌心相对，手臂微曲","向两侧展开手臂如翅膀，用后背发力","动作缓慢控制，顶峰停顿1秒，不要甩铃"],
+kp:"改善圆肩驼背的关键动作，薄弱环节必练",
+front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-rear-delt-fly-front.mp4",
+side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-rear-delt-fly-side.mp4"},
+
+{id:5,n:"哑铃仰卧上拉",en:"Dumbbell Pullover",
+tgt:"背阔肌、前锯肌、胸大肌下束",sets:"3组 × 12次",wt:"中等重量",mx:3,
+tips:["仰卧于凳面，双脚踩稳地面","双手合握一只哑铃，手臂微曲举至胸口上方","保持微曲，向头后方缓慢下放至充分拉伸","用背阔肌发力沿弧线拉回胸口上方"],
+kp:"独特纵向拉伸角度，有效增加背阔肌宽度",
+front:"https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-pullover-front.mp4",
+side:"https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-pullover-side.mp4"},
+
+{id:6,n:"哑铃耸肩",en:"Dumbbell Shrug",
+tgt:"斜方肌上束",sets:"3组 × 15-20次",wt:"偏重",mx:3,
+tips:["站姿，双手各持一只哑铃，手臂自然下垂","用斜方肌发力将肩膀向耳朵方向耸起","顶峰停顿2秒，充分收缩斜方肌","不要转动肩膀画圈，直上直下即可"],
+kp:"打造虎背的关键，让上背更厚实有力量感",
+front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-shrug-front.mp4",
+side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-shrug-side.mp4"}
+];
+
+var cur=0,angle='front',done={},tipsOpen=true;
+var total=E.reduce(function(s,e){return s+e.mx},0);
+
+function gd(id){return done[id]||0}
+function gtd(){var s=0;for(var k in done)s+=done[k];return s}
+
+function uprog(){
+  var d=gtd();
+  document.getElementById('ptxt').textContent=d===total?'🎉 全部完成！':d+'/'+total+' 组';
+  var pf=document.getElementById('pfill');
+  pf.style.width=(total?(d/total)*100:0)+'%';
+  pf.style.background=d===total?'linear-gradient(90deg,#22c55e,#4ade80)':'linear-gradient(90deg,#ff6b35,#ffb088)';
+}
+
+function rpills(){
+  var c=document.getElementById('pills');c.innerHTML='';
+  E.forEach(function(e,i){
+    var b=document.createElement('button');
+    b.className='pill'+(i===cur?' on':'');
+    b.textContent=e.n;
+    var d=gd(e.id);
+    if(d>0){var bg=document.createElement('span');bg.className='badge'+(d>=e.mx?' dn':'');bg.textContent=d>=e.mx?'✓':d;b.appendChild(bg)}
+    b.onclick=function(){cur=i;angle='front';render()};
+    c.appendChild(b);
+  });
+  setTimeout(function(){
+    if(c.children[cur])c.children[cur].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  },50);
+}
+
+function setAngle(a){
+  angle=a;
+  render();
+}
+
+function toggleTips(){
+  tipsOpen=!tipsOpen;
+  var body=document.getElementById('tipsBody');
+  var arrow=document.getElementById('tipsArrow');
+  if(body)body.className=tipsOpen?'tips-body show':'tips-body';
+  if(arrow)arrow.className=tipsOpen?'open':'';
+}
+
+function render(){
+  var e=E[cur],d=gd(e.id),ad=d>=e.mx;
+  var videoSrc=angle==='front'?e.front:e.side;
+  var m=document.getElementById('mn');
+  var h='';
+
+  h+='<div class="card">';
+  h+='<div class="vid-box">';
+  h+='<video autoplay loop muted playsinline><source src="'+videoSrc+'" type="video/mp4"></video>';
+  h+='<div class="angle-bar">';
+  h+='<button class="angle-btn'+(angle==='front'?' on':'')+'" onclick="setAngle(\'front\')">正面</button>';
+  h+='<button class="angle-btn'+(angle==='side'?' on':'')+'" onclick="setAngle(\'side\')">侧面</button>';
+  h+='</div>';
+  h+='<div class="vbadge">'+(cur+1)+' / '+E.length+'</div>';
+  h+='</div>';
+  h+='<div class="vtitle"><h2>'+e.n+'</h2><p class="en">'+e.en+'</p></div>';
+  h+='</div>';
+
+  h+='<div class="dots" id="dots"></div>';
+
+  h+='<button class="btn'+(ad?' alldn':'')+'" onclick="tick('+e.id+')">';
+  h+=ad?'✓ 已完成全部 '+e.mx+' 组（点击重置）':'完成第 '+(d+1)+' 组（'+d+'/'+e.mx+'）';
+  h+='</button>';
+
+  h+='<div class="stats">';
+  h+='<div class="st"><div class="st-l">目标肌群</div><div class="st-v">'+e.tgt+'</div></div>';
+  h+='<div class="st"><div class="st-l">训练量</div><div class="st-v">'+e.sets+'</div><div class="st-s">'+e.wt+'</div></div>';
+  h+='</div>';
+
+  h+='<div class="kp">💡 '+e.kp+'</div>';
+
+  h+='<div class="tips-box">';
+  h+='<div class="tips-hd" onclick="toggleTips()"><span>动作要领</span><span id="tipsArrow" class="'+(tipsOpen?'open':'')+'">▼</span></div>';
+  h+='<div class="tips-body'+(tipsOpen?' show':'')+'" id="tipsBody">';
+  e.tips.forEach(function(t,i){
+    h+='<div class="tr"><span class="tn">'+(i+1)+'</span><span class="tt">'+t+'</span></div>';
+  });
+  h+='</div></div>';
+
+  h+='<div class="nav">';
+  h+='<button class="nb" '+(cur===0?'disabled':'')+' onclick="go(-1)">← 上一个</button>';
+  h+='<button class="nb" '+(cur===E.length-1?'disabled':'')+' onclick="go(1)">下一个 →</button>';
+  h+='</div>';
+
+  h+='<div class="ft"><h3>训练建议</h3><div>';
+  h+='组间休息 60-90 秒 · 全程约 45-55 分钟<br>';
+  h+='训练前用跑步机慢跑 5-8 分钟热身<br>';
+  h+='每个动作先用轻重量找到背部发力感<br>';
+  h+='每周 1-2 次背部训练，间隔至少 48 小时<br>';
+  h+='渐进超负荷：每 1-2 周尝试增加重量或次数';
+  h+='</div></div>';
+
+  h+='<div class="credit">真人视频来源：MuscleWiki.com</div>';
+
+  m.innerHTML=h;
+
+  var dots=document.getElementById('dots');
+  for(var i=0;i<e.mx;i++){
+    var dt=document.createElement('div');
+    dt.className='dot'+(i<d?(ad?' dn alldn':' dn'):'');
+    dt.textContent=i<d?'✓':(i+1);
+    dots.appendChild(dt);
+  }
+
+  rpills();uprog();
+}
+
+function go(dir){
+  cur=Math.max(0,Math.min(E.length-1,cur+dir));
+  angle='front';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function tick(id){
+  var ex;
+  for(var i=0;i<E.length;i++){if(E[i].id===id){ex=E[i];break;}}
+  var c=gd(id);
+  done[id]=c>=ex.mx?0:c+1;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
