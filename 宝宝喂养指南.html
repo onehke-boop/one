@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>6-12个月宝宝各类食物喂养量</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: "PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+  background: linear-gradient(180deg,#FFF5EE 0%,#FDE8E0 25%,#F0E6FF 55%,#E4F0FB 80%,#FFF5EE 100%);
+  min-height: 100vh;
+  padding: 16px 12px 48px;
+  color: #3A3A3A;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);
+  border-radius: 28px;
+  padding: 32px 20px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(102,126,234,0.35);
+  margin-bottom: 18px;
+}
+.header .blob1 { position:absolute;top:-25px;right:-25px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1); }
+.header .blob2 { position:absolute;bottom:-20px;left:-15px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.07); }
+.header .deco-bottle { position:absolute;top:14px;left:14px;opacity:.7; }
+.header .deco-apple { position:absolute;bottom:18px;right:18px;opacity:.6; }
+.header .deco-star1 { position:absolute;top:6px;right:48px;opacity:.5; }
+.header .deco-star2 { position:absolute;bottom:8px;left:60px;opacity:.4; }
+.header h1 { font-size:40px;font-weight:900;color:white;letter-spacing:4px;text-shadow:0 3px 12px rgba(0,0,0,0.2);line-height:1.2;position:relative; }
+.header h2 { font-size:24px;font-weight:800;color:white;letter-spacing:3px;margin-top:6px;text-shadow:0 2px 10px rgba(0,0,0,0.15);position:relative; }
+.header .sub { font-size:13px;color:rgba(255,255,255,0.75);margin-top:10px;letter-spacing:5px;position:relative; }
+
+/* Tabs */
+.tabs {
+  display:flex;gap:6px;margin-bottom:18px;
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:18px;padding:4px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.4);
+}
+.tabs button {
+  flex:1;padding:13px 6px;border:none;border-radius:14px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  transition:all .3s;background:transparent;color:#aaa;
+  font-family:inherit;
+}
+.tabs button.active {
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:white;
+  box-shadow:0 6px 20px rgba(102,126,234,0.4);
+}
+
+/* Glass card */
+.glass {
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:22px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.4);
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+/* Badges */
+.badges { display:flex;gap:8px;justify-content:center;margin-bottom:16px; }
+.badge {
+  font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;color:white;
+  box-shadow:0 4px 12px rgba(0,0,0,0.12);
+}
+.badge-m6 { background:linear-gradient(135deg,#74b9ff,#a29bfe); }
+.badge-m79 { background:linear-gradient(135deg,#fdcb6e,#f39c12); }
+.badge-m1012 { background:linear-gradient(135deg,#55efc4,#00b894); }
+
+/* Category card */
+.cat-header {
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size:30px;line-height:1; }
+.cat-header .label { font-weight:800;font-size:18px;letter-spacing:2px; }
+.data-row { display:flex; }
+.data-cell {
+  flex:1;padding:16px 8px;font-size:13.5px;line-height:1.9;
+  text-align:center;position:relative;
+}
+.data-cell + .data-cell { border-left:1px solid rgba(0,0,0,0.05); }
+.data-cell .bar { position:absolute;top:0;left:0;right:0;height:3px; }
+.bar-m6 { background:linear-gradient(135deg,#74b9ff,#a29bfe); }
+.bar-m79 { background:linear-gradient(135deg,#fdcb6e,#f39c12); }
+.bar-m1012 { background:linear-gradient(135deg,#55efc4,#00b894); }
+
+/* Section headers */
+.sec-header {
+  padding:14px 16px;font-weight:800;font-size:18px;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* Sequence pills */
+.seq-row { display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:6px; }
+.pill {
+  color:white;padding:7px 16px;border-radius:22px;font-size:13px;font-weight:700;
+  display:inline-block;
+}
+.pill-blue { background:linear-gradient(135deg,#74b9ff,#a29bfe);box-shadow:0 3px 10px rgba(116,185,255,0.25); }
+.pill-orange { background:linear-gradient(135deg,#fdcb6e,#e17055);box-shadow:0 3px 10px rgba(253,203,110,0.25); }
+.arrow-blue { color:#a29bfe;font-weight:800;font-size:18px; }
+.arrow-orange { color:#e17055;font-weight:800;font-size:18px; }
+
+/* Table */
+.tbl { display:grid;grid-template-columns:54px 1fr 1fr 1fr 1fr; }
+.tbl-hdr { padding:9px 4px;color:white;text-align:center;font-size:11px;font-weight:700; }
+.tbl-label { padding:12px 4px;background:#fafafa;text-align:center;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center; }
+.tbl-cell { padding:12px 6px;font-size:12px;line-height:1.7;text-align:center;border-left:1px solid #f0f0f0; }
+
+/* Taboo list */
+.taboo-item {
+  display:flex;align-items:center;gap:12px;padding:9px 0;
+  border-bottom:1px dashed #f0e0e0;
+}
+.taboo-item:last-child { border-bottom:none; }
+.taboo-num {
+  color:white;border-radius:50%;min-width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;flex-shrink:0;
+}
+.taboo-text { font-size:14.5px;line-height:1.6; }
+
+/* Tips */
+.tip-item {
+  display:flex;align-items:flex-start;gap:12px;padding:10px 0;
+  border-bottom:1px dashed #f0e8e0;
+}
+.tip-item:last-child { border-bottom:none; }
+.tip-icon { font-size:24px;line-height:1;flex-shrink:0; }
+.tip-text { font-size:14.5px;line-height:1.8;flex:1; }
+
+/* Footer */
+.footer { text-align:center;padding:28px 0 8px;display:flex;flex-direction:column;align-items:center;gap:8px; }
+.footer .decos { display:flex;gap:8px;align-items:center; }
+.footer .note { font-size:11px;color:#ccc;letter-spacing:1px; }
+
+/* Tab panels */
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* SVG icons inline */
+.svg-star { display:inline-block; }
+.svg-heart { display:inline-block; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="blob1"></div>
+  <div class="blob2"></div>
+  <div class="deco-bottle">
+    <svg viewBox="0 0 50 80" width="36" height="56"><rect x="15" y="12" width="20" height="8" rx="4" fill="#FFD6E0"/><rect x="10" y="20" width="30" height="48" rx="8" fill="#E8F4FD" stroke="#A8D8EA" stroke-width="2"/><rect x="12" y="40" width="26" height="26" rx="6" fill="#FFEAA7" opacity="0.7"/><line x1="16" y1="30" x2="24" y2="30" stroke="#A8D8EA" stroke-width="1.5"/><line x1="16" y1="36" x2="22" y2="36" stroke="#A8D8EA" stroke-width="1.5"/></svg>
+  </div>
+  <div class="deco-apple">
+    <svg viewBox="0 0 40 44" width="28" height="31"><ellipse cx="20" cy="26" rx="14" ry="15" fill="#FF7675"/><ellipse cx="16" cy="22" rx="4" ry="4" fill="#FF9A9A" opacity="0.6"/><path d="M 20 11 Q 22 6 26 8" fill="none" stroke="#6B8E23" stroke-width="2" stroke-linecap="round"/><ellipse cx="24" cy="9" rx="5" ry="3" fill="#81C784" transform="rotate(-30 24 9)"/></svg>
+  </div>
+  <div class="deco-star1"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FFD54F"/></svg></div>
+  <div class="deco-star2"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FFD54F"/></svg></div>
+  <h1>6–12 个月</h1>
+  <h2>宝宝各类食物喂养量</h2>
+  <div class="sub">科学喂养 · 健康成长 · 快乐每一天</div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="active" onclick="switchTab(0)">🍼 喂养量表</button>
+  <button onclick="switchTab(1)">📋 添加指南</button>
+  <button onclick="switchTab(2)">⚠️ 禁忌贴士</button>
+</div>
+
+<!-- Panel 0: 喂养量表 -->
+<div class="panel active" id="panel0">
+  <div class="badges">
+    <span class="badge badge-m6">6 个月</span>
+    <span class="badge badge-m79">7–9 个月</span>
+    <span class="badge badge-m1012">10–12 个月</span>
+  </div>
+
+  <div class="glass" id="feeding-cards"></div>
+</div>
+
+<!-- Panel 1: 添加指南 -->
+<div class="panel" id="panel1">
+  <!-- 辅食顺序 -->
+  <div class="glass" style="padding:22px 18px;">
+    <div style="font-size:18px;font-weight:800;margin-bottom:18px;color:#667eea;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:24px">🔄</span> 辅食添加顺序
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:#999;margin-bottom:10px;">稀稠顺序</div>
+      <div class="seq-row">
+        <span class="pill pill-blue">流质</span><span class="arrow-blue">→</span>
+        <span class="pill pill-blue">半流质</span><span class="arrow-blue">→</span>
+        <span class="pill pill-blue">半固体</span><span class="arrow-blue">→</span>
+        <span class="pill pill-blue">固体</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:#999;margin-bottom:10px;">米糊顺序</div>
+      <div class="seq-row">
+        <span class="pill pill-orange">高铁米粉</span><span class="arrow-orange">→</span>
+        <span class="pill pill-orange">糙米</span><span class="arrow-orange">→</span>
+        <span class="pill pill-orange">燕麦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 各阶段质地与次数 -->
+  <div class="glass">
+    <div class="sec-header" style="background:linear-gradient(135deg,#a8e6cf,#88d8a8);color:#1B5E20;">
+      <span style="font-size:22px">📅</span> 各阶段质地与次数
+    </div>
+    <div class="tbl" style="border-bottom:2px solid #eee;">
+      <div style="padding:8px;background:#fafafa;"></div>
+      <div class="tbl-hdr" style="background:linear-gradient(135deg,#74b9ff,#a29bfe);">6 月</div>
+      <div class="tbl-hdr" style="background:linear-gradient(135deg,#fdcb6e,#f39c12);">7-8 月</div>
+      <div class="tbl-hdr" style="background:linear-gradient(135deg,#55efc4,#00b894);">9-12 月</div>
+      <div class="tbl-hdr" style="background:linear-gradient(135deg,#fd79a8,#e17055);">1-1.5 岁</div>
+    </div>
+    <div class="tbl" style="border-bottom:1px solid #f0f0f0;">
+      <div class="tbl-label">质地</div>
+      <div class="tbl-cell">稀滑米粉<br>易吞咽</div>
+      <div class="tbl-cell">稀滑米粉<br>易吞咽</div>
+      <div class="tbl-cell">有颗粒食物<br>训练咀嚼</div>
+      <div class="tbl-cell">软饭<br>碎肉类</div>
+    </div>
+    <div class="tbl">
+      <div class="tbl-label">次数</div>
+      <div class="tbl-cell">1-2 次/天<br>米糊<br>菜泥、果泥</div>
+      <div class="tbl-cell">2 次/天<br>稠粥、面条<br>肉泥、豆腐<br>蛋黄<br>手指食物</div>
+      <div class="tbl-cell">3 次/天<br>稠粥、面条<br>肉泥、豆腐<br>蛋黄<br>手指食物</div>
+      <div class="tbl-cell">3 次/天<br>和成人一样<br>稍软即可</div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 2: 禁忌 + 贴士 -->
+<div class="panel" id="panel2">
+  <!-- 12 禁忌 -->
+  <div class="glass">
+    <div class="sec-header" style="background:linear-gradient(135deg,#ff9a9e,#fecfef);color:#C62828;">
+      <span style="font-size:22px">⚠️</span> 辅食添加 12 项禁忌
+    </div>
+    <div style="padding:14px 16px;" id="taboo-list"></div>
+  </div>
+
+  <!-- 注意事项 -->
+  <div class="glass">
+    <div class="sec-header" style="background:linear-gradient(135deg,#ffecd2,#fcb69f);color:#6D4C41;">
+      <span style="font-size:22px">💡</span> 注意事项
+      <svg viewBox="0 0 24 24" width="20" height="20" style="margin-left:auto;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FFD54F"/></svg>
+    </div>
+    <div style="padding:14px 16px;" id="tip-list"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="decos">
+    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#FFB6C1"/></svg>
+    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FFD54F"/></svg>
+    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#FFB6C1"/></svg>
+  </div>
+  <div class="note">内容仅供参考，具体请遵循儿科医生建议</div>
+</div>
+
+<script>
+// Data
+const feedingData = [
+  {cat:"食物性状",icon:"🍽️",m6:"泥状食物",m79:"末状食物",m1012:"碎块、丁状食物",bg:"#FFE0E6"},
+  {cat:"餐  次",icon:"⏰",m6:"尝试，逐渐<br>增加至一餐",m79:"3-5 次奶<br>1-2 餐辅食",m1012:"2-3 次奶<br>2-3 餐辅食<br>2 次点心",bg:"#FFF3E0"},
+  {cat:"乳  类",icon:"🍼",m6:"3-4 小时一次奶<br>每餐 180-240ml<br>一天 4-6 次<br>逐渐减少<br>夜间哺乳",m79:"4-5 小时一次奶<br>每餐 210-240ml<br>一天 3-4 次<br>每天约<br>600-800ml",m1012:"6 小时一次<br>每餐 210-240ml<br>一天 2-3 次<br>每天约 600ml",bg:"#E3F2FD"},
+  {cat:"谷  类",icon:"🌾",m6:"选择强化铁米粉<br>一勺米粉<br>用温水调配",m79:"强化铁米粉<br>稀粥、面条<br>每日约 30-50g",m1012:"米粉、面条<br>馄饨、软饭<br>每日约 30-75g",bg:"#FFF8E1"},
+  {cat:"蔬菜水果",icon:"🥦",m6:"尝试蔬菜泥<br>水果泥<br>每次 1-2 勺<br>每日约 5-10g",m79:"每日碎菜<br>25-50g<br>水果 20-30g",m1012:"每日碎菜<br>50-100g<br>水果 30-50g",bg:"#E8F5E9"},
+  {cat:"肉  类",icon:"🥩",m6:"暂不添加",m79:"开始添加肉泥<br>肝泥、动物血<br>每日 15-30g",m1012:"添加肉末、肝泥<br>动物血、鱼肉、虾<br>每日 30-50g",bg:"#FBE9E7"},
+  {cat:"蛋  类",icon:"🥚",m6:"暂不添加",m79:"8 个月开始<br>添加蛋黄<br>从 1/4 逐渐增加<br>至 1 个",m1012:"1 个蛋黄<br>蛋清一岁后添加",bg:"#FFFDE7"},
+  {cat:"喂养方式",icon:"👶",m6:"用勺喂养",m79:"坐在餐椅上<br>与成人共同进餐<br>锻炼宝宝自己<br>拿勺子<br>和手指食物",m1012:"学会用勺进食<br>用杯子喝水<br>与成人进餐",bg:"#F3E5F5"},
+];
+
+const taboos = [
+  "不要把蛋黄作为宝宝的第一顿辅食","不要过度喂养辅食",
+  "1 岁内不喝豆奶","不使用铜制、铝制容器",
+  "1 岁内不加鲜牛奶","不使用瓶盖喂辅食",
+  "1 岁以内不添加盐、糖调料品","不用营养品代替正常食物",
+  "2 岁内不食用蜂蜜","不给宝宝喝果汁",
+  "3 岁内不吃汤圆","不给宝宝喝茶水、功能饮料",
+];
+
+const tips = [
+  {icon:"🥚",t:"鸡蛋：7 月前不吃鸡蛋，7 个月后吃蛋黄，一周岁吃全蛋"},
+  {icon:"🍎",t:"水果：先吃糖分少的（苹果、香蕉、梨、牛油果）"},
+  {icon:"🥭",t:"热带水果（芒果、菠萝）易过敏"},
+  {icon:"🍑",t:"有毛水果（水蜜桃、奇异果）也易过敏"},
+  {icon:"🥩",t:"肉类：先吃白肉再吃红肉"},
+  {icon:"🤚",t:"8 个月可让宝宝尝试自己吃饭，适当吃手指食物"},
+  {icon:"🥜",t:"花生、坚果这些到 3 岁后再尝试"},
+  {icon:"📅",t:"新食物连续吃三天以上再换，确保不过敏"},
+];
+
+const bars = ['bar-m6','bar-m79','bar-m1012'];
+
+// Build feeding cards
+const container = document.getElementById('feeding-cards');
+container.innerHTML = '';
+container.style.background = 'transparent';
+container.style.boxShadow = 'none';
+container.style.border = 'none';
+container.style.backdropFilter = 'none';
+
+feedingData.forEach(r => {
+  const card = document.createElement('div');
+  card.className = 'glass';
+  card.innerHTML = `
+    <div class="cat-header" style="background:${r.bg}">
+      <span class="icon">${r.icon}</span>
+      <span class="label">${r.cat}</span>
+    </div>
+    <div class="data-row">
+      ${[r.m6,r.m79,r.m1012].map((v,i) => `
+        <div class="data-cell">
+          <div class="bar ${bars[i]}"></div>
+          ${v}
+        </div>
+      `).join('')}
+    </div>
+  `;
+  container.appendChild(card);
+});
+
+// Build taboo list
+const tabooList = document.getElementById('taboo-list');
+taboos.forEach((t,i) => {
+  const hue = (i * 25 + 340) % 360;
+  tabooList.innerHTML += `
+    <div class="taboo-item">
+      <span class="taboo-num" style="background:linear-gradient(135deg,hsl(${hue},70%,58%),hsl(${hue+20},70%,65%));box-shadow:0 3px 8px hsla(${hue},70%,55%,0.3);">${i+1}</span>
+      <span class="taboo-text">${t}</span>
+    </div>
+  `;
+});
+
+// Build tip list
+const tipList = document.getElementById('tip-list');
+tips.forEach((tip,i) => {
+  tipList.innerHTML += `
+    <div class="tip-item">
+      <span class="tip-icon">${tip.icon}</span>
+      <span class="tip-text">${tip.t}</span>
+    </div>
+  `;
+});
+
+// Tab switching
+function switchTab(n) {
+  document.querySelectorAll('.panel').forEach((p,i) => {
+    p.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tabs button').forEach((b,i) => {
+    b.classList.toggle('active', i === n);
+  });
+}
+</script>
+</body>
+</html>
