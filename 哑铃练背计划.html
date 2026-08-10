@@ -11,7 +11,7 @@
   --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.045);
   --ink:#ecedef; --mut:#9ca3af; --dim:#6b7280; --faint:#4b5160;
   --amber:#ff6b35; --amber2:#ff9a5c; --peach:#ffb088;
-  --ok:#22c55e; --ok2:#4ade80; --warn:#f87171;
+  --ok:#22c55e; --warn:#f87171;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
@@ -75,9 +75,9 @@ button{font-family:inherit;cursor:pointer}
 .vspin::after{content:'';width:30px;height:30px;border-radius:50%;border:3px solid rgba(255,255,255,.12);border-top-color:var(--amber);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .vid-box.ok .vspin,.vid-box.err .vspin{display:none}
-.verr{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:2;font-size:13px;color:var(--dim);text-align:center;padding:20px}
+.verr{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:2;font-size:13px;color:var(--dim);text-align:center;padding:20px}
 .vid-box.err .verr{display:flex}
-.verr button{padding:7px 18px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--mut);font-size:12px}
+.verr button{padding:8px 20px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--mut);font-size:12px}
 .angle-bar{position:absolute;bottom:12px;right:12px;display:flex;gap:4px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);border-radius:10px;padding:3px;z-index:3}
 .angle-btn{padding:6px 14px;border-radius:8px;border:none;background:transparent;color:#888;font-size:12px;font-weight:600;transition:all .2s}
 .angle-btn.on{background:rgba(255,107,53,.9);color:#fff}
@@ -207,7 +207,7 @@ button{font-family:inherit;cursor:pointer}
     <div class="logo">背</div>
     <div>
       <h1>哑铃练背计划</h1>
-      <p class="sub" id="subline">6 个动作 · 真人视频演示</p>
+      <p class="sub" id="subline">6 个动作 · 真人视频演示 · 正/侧切换</p>
     </div>
     <button class="hist-btn" id="histBtn">记录</button>
   </div>
@@ -225,13 +225,15 @@ button{font-family:inherit;cursor:pointer}
   <div id="coolwrap"></div>
   <div class="ft">
     <h3>训练建议</h3>
+    <div class="fr"><span class="fk">顺序</span><span class="fv">先大重量复合动作（划船），中段做硬拉，最后小肌群收尾，已按此排好</span></div>
     <div class="fr"><span class="fk">频率</span><span class="fv">每周 1–2 次背部训练，间隔至少 48 小时，避开推力日前后</span></div>
     <div class="fr"><span class="fk">热身</span><span class="fv">先完成顶部热身清单，正式组前用轻重量找背部发力感</span></div>
+    <div class="fr"><span class="fk">强度</span><span class="fv">每组做到接近力竭但留 1–2 次余力（RIR 1–2），动作变形就停</span></div>
     <div class="fr"><span class="fk">休息</span><span class="fv">划船/硬拉类 90–120 秒，小肌群 60 秒，计时器已按动作预设</span></div>
     <div class="fr"><span class="fk">进阶</span><span class="fv">双重渐进：每组都能做到次数上限且动作标准 → 下次单只加 2.5kg，从下限重新开始</span></div>
     <div class="fr"><span class="fk">收尾</span><span class="fv">练完做底部拉伸放松，能明显缓解次日酸痛</span></div>
   </div>
-  <div class="credit">真人视频来源：MuscleWiki.com</div>
+  <div class="credit">真人视频来源：MuscleWiki.com · 备用源 Experience Life</div>
 </div>
 
 <!-- 休息计时器 -->
@@ -295,61 +297,61 @@ button{font-family:inherit;cursor:pointer}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═══════════ 数据 ═══════════ */
+/* ═══════════ 训练数据（顺序：复合优先 → 硬拉居中 → 小肌群收尾） ═══════════
+   每个动作 srcs 为视频源列表，首选源失效时自动切换下一个备用源 */
+var MW='https://media.musclewiki.com/media/uploads/videos/branded/';
 var E=[
+{id:2,n:"俯身双臂划船",en:"Bent-Over Dumbbell Row",
+tgt:"背阔肌、斜方肌中下束、菱形肌",sets:"4组 × 8-12次",wt:"中等偏重",mx:4,
+rest:90,tempo:"拉起1秒 · 停1秒 · 慢放3秒",repEst:10,volF:2,
+srcs:[{f:MW+'male-Dumbbells-dumbbell-row-bilateral-front.mp4',s:MW+'male-Dumbbells-dumbbell-row-bilateral-side.mp4'}],
+tips:["双脚与肩同宽，俯身约45度，膝盖微曲","双手握哑铃自然下垂，掌心相对","肩胛骨先收紧，再发力将哑铃拉向腹部","手肘贴近身体两侧，呼气拉起、吸气下放"],
+mis:["弓背塌腰，下背压力剧增","俯身角度太小，练成了耸肩","靠二头弯举发力，背部没有先启动"],
+kp:"今天的主菜：状态最好时冲最重的双臂划船"},
+
 {id:1,n:"单臂哑铃划船",en:"Single-Arm Dumbbell Row",
 tgt:"背阔肌、菱形肌、后三角",sets:"4组 × 10-12次/侧",wt:"中等重量",mx:4,
 rest:90,tempo:"拉起1秒 · 停1秒 · 慢放3秒",repEst:11,volF:2,
+srcs:[{f:MW+'male-Dumbbells-dumbbell-kneeling-single-arm-row-front.mp4',s:MW+'male-Dumbbells-dumbbell-kneeling-single-arm-row-side.mp4'}],
 tips:["非工作手和同侧膝盖撑在平凳上，背部保持水平","哑铃拉向髋部方向，不是胸部，手肘贴近身体","顶峰收缩停顿1秒，感受背阔肌挤压，慢放3秒","躯干保持稳定，不要旋转借力，核心全程收紧"],
 mis:["耸肩用斜方肌代偿——肩膀始终离耳朵远一点","躯干跟着旋转，把哑铃「甩」上来","拉向胸口而不是髋部，手肘向外飘"],
-kp:"练背王牌动作，能孤立刺激单侧背阔肌",
-front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-kneeling-single-arm-row-front.mp4",
-side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-kneeling-single-arm-row-side.mp4"},
-
-{id:2,n:"俯身双臂划船",en:"Bent-Over Dumbbell Row",
-tgt:"背阔肌、斜方肌中下束、菱形肌",sets:"4组 × 8-12次",wt:"中等偏重",mx:4,
-rest:90,tempo:"拉起1秒 · 停1秒 · 慢放2秒",repEst:10,volF:2,
-tips:["双脚与肩同宽，俯身约45度，膝盖微曲","双手握哑铃自然下垂，掌心相对","肩胛骨先收紧，再发力将哑铃拉向腹部","手肘贴近身体两侧，不要外展"],
-mis:["弓背塌腰，下背压力剧增","俯身角度太小，练成了耸肩","靠二头弯举发力，背部没有先启动"],
-kp:"双臂同时训练，效率高，适合冲重量",
-front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-row-bilateral-front.mp4",
-side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-row-bilateral-side.mp4"},
+kp:"单侧孤立刺激，专治两边背阔肌不对称"},
 
 {id:3,n:"哑铃罗马尼亚硬拉",en:"Dumbbell Romanian Deadlift",
 tgt:"竖脊肌、臀大肌、腘绳肌",sets:"3组 × 10-12次",wt:"中等偏重",mx:3,
 rest:120,tempo:"下放3秒 · 底部停1秒 · 站起1秒",repEst:11,volF:2,
+srcs:[{f:MW+'male-Dumbbells-dumbbell-romanian-deadlift-front.mp4',s:MW+'male-Dumbbells-dumbbell-romanian-deadlift-side.mp4'}],
 tips:["双手持哑铃于身体前侧，双脚与髋同宽","臀部往后推，不是弯腰，像要坐到身后的椅子","哑铃贴近大腿前侧下滑，感受腘绳肌拉伸","全程腰背挺直，核心收紧，下放到小腿中段即可"],
 mis:["圆背下放，腰椎受压","膝盖过度前移，做成了深蹲","为追求幅度下放过深，骨盆翻转"],
-kp:"后链之王，强化下背和核心稳定性",
-front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-front.mp4",
-side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-side.mp4"},
-
-{id:4,n:"俯身反向飞鸟",en:"Dumbbell Rear Delt Fly",
-tgt:"后三角肌、菱形肌、斜方肌中束",sets:"3组 × 12-15次",wt:"轻重量",mx:3,
-rest:60,tempo:"展开2秒 · 停1秒 · 慢放2秒",repEst:13,volF:2,
-tips:["俯身至躯干接近与地面平行","双手持哑铃下垂，掌心相对，手臂微曲","向两侧展开手臂如翅膀，用后背发力","动作缓慢控制，顶峰停顿1秒，不要甩铃"],
-mis:["重量太大，全程靠惯性甩动","抬头过度，变成颈椎发力","手臂完全伸直，肘关节锁死"],
-kp:"改善圆肩驼背的关键动作，薄弱环节必练",
-front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-rear-delt-fly-front.mp4",
-side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-rear-delt-fly-side.mp4"},
+kp:"后链之王，趁腰还有力气放在中段做"},
 
 {id:5,n:"哑铃仰卧上拉",en:"Dumbbell Pullover",
 tgt:"背阔肌、前锯肌、胸大肌下束",sets:"3组 × 12次",wt:"中等重量",mx:3,
 rest:75,tempo:"下放3秒 · 拉回2秒",repEst:12,volF:1,
+srcs:[
+{f:MW+'male-Dumbbells-dumbbell-pullover-front.mp4',s:MW+'male-Dumbbells-dumbbell-pullover-side.mp4'},
+{f:MW+'female-Dumbbells-dumbbell-pullover-front.mp4',s:MW+'female-Dumbbells-dumbbell-pullover-side.mp4'},
+{f:'https://experiencelife.lifetime.life/wp-content/uploads/2025/01/mj25-bid-pullover-one-db.mp4',s:null}
+],
 tips:["仰卧于凳面，双脚踩稳地面","双手合握一只哑铃，手臂微曲举至胸口上方","保持微曲，向头后方缓慢下放至充分拉伸","用背阔肌发力沿弧线拉回胸口上方"],
 mis:["手肘向两侧张开，变成三头训练","下放太快，肩关节失控","下背过度反弓离开凳面"],
-kp:"独特纵向拉伸角度，有效增加背阔肌宽度",
-front:"https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-pullover-front.mp4",
-side:"https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-pullover-side.mp4"},
+kp:"独特纵向拉伸角度，有效增加背阔肌宽度"},
+
+{id:4,n:"俯身反向飞鸟",en:"Dumbbell Rear Delt Fly",
+tgt:"后三角肌、菱形肌、斜方肌中束",sets:"3组 × 12-15次",wt:"轻重量",mx:3,
+rest:60,tempo:"展开2秒 · 停1秒 · 慢放2秒",repEst:13,volF:2,
+srcs:[{f:MW+'male-Dumbbells-dumbbell-rear-delt-fly-front.mp4',s:MW+'male-Dumbbells-dumbbell-rear-delt-fly-side.mp4'}],
+tips:["俯身至躯干接近与地面平行","双手持哑铃下垂，掌心相对，手臂微曲","向两侧展开手臂如翅膀，用后背发力","动作缓慢控制，顶峰停顿1秒，不要甩铃"],
+mis:["重量太大，全程靠惯性甩动","抬头过度，变成颈椎发力","手臂完全伸直，肘关节锁死"],
+kp:"改善圆肩驼背的关键动作，薄弱环节必练"},
 
 {id:6,n:"哑铃耸肩",en:"Dumbbell Shrug",
 tgt:"斜方肌上束",sets:"3组 × 15-20次",wt:"偏重",mx:3,
 rest:60,tempo:"耸起1秒 · 停2秒 · 慢放2秒",repEst:17,volF:2,
+srcs:[{f:MW+'male-Dumbbells-dumbbell-shrug-front.mp4',s:MW+'male-Dumbbells-dumbbell-shrug-side.mp4'}],
 tips:["站姿，双手各持一只哑铃，手臂自然下垂","用斜方肌发力将肩膀向耳朵方向耸起","顶峰停顿2秒，充分收缩斜方肌","不要转动肩膀画圈，直上直下即可"],
 mis:["转肩画圈，增加肩袖磨损风险","低头含胸，斜方肌受力打折","借助屈臂把哑铃「提」起来"],
-kp:"打造虎背的关键，让上背更厚实有力量感",
-front:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-shrug-front.mp4",
-side:"https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-shrug-side.mp4"}
+kp:"打造虎背的关键，最后用大重量榨干斜方肌"}
 ];
 
 var WARM=[
@@ -408,12 +410,17 @@ function pushHistory(s,date,sets){
 var st=loadState();
 sSet(st);
 var cur=0,angle='front',tipsOpen=true,misOpen=false,warmOpen=false,coolOpen=false;
+var srcIdx={};   /* 各动作当前使用的视频源序号（仅本次会话） */
 var total=E.reduce(function(s,e){return s+e.mx},0);
 
 function save(){sSet(st)}
 function $(s){return document.querySelector(s)}
 function gd(id){return st.done[id]||0}
 function gtd(){var s=0;for(var k in st.done)s+=st.done[k];return s}
+function curSrc(e){
+  var i=Math.min(srcIdx[e.id]||0,e.srcs.length-1);
+  return e.srcs[i];
+}
 
 /* ═══════════ 音效与震动 ═══════════ */
 var actx=null;
@@ -458,7 +465,7 @@ function uprog(){
 }
 function usub(){
   var n=st.history.length;
-  $('#subline').textContent='6 个动作 · 真人视频演示'+(n>0?' · 已打卡 '+n+' 次':'');
+  $('#subline').textContent='6 个动作 · 真人视频演示'+(n>0?' · 已打卡 '+n+' 次':' · 正/侧切换');
 }
 
 /* ═══════════ 动作切换胶囊 ═══════════ */
@@ -506,7 +513,6 @@ function rcool(){rlist('coolwrap',COOL,'cool',coolOpen,'放松拉伸 · 练后�
 /* ═══════════ 动作主区 ═══════════ */
 function renderEx(){
   var e=E[cur];
-  var w=st.weights[e.id]||0;
   var h='';
 
   h+='<div class="card">';
@@ -534,9 +540,9 @@ function renderEx(){
 
   h+='<div class="stats">';
   h+='<div class="st"><div class="st-l">目标肌群</div><div class="st-v">'+e.tgt+'</div></div>';
-  h+='<div class="st"><div class="st-l">训练量</div><div class="st-v num">'+e.sets+'</div><div class="st-s">'+e.wt+'</div></div>';
+  h+='<div class="st"><div class="st-l">训练量</div><div class="st-v num">'+e.sets+'</div><div class="st-s">'+e.wt+' · 留1-2次余力</div></div>';
   h+='<div class="st"><div class="st-l">组间休息</div><div class="st-v num">'+e.rest+' 秒</div><div class="st-s">计时器自动开始</div></div>';
-  h+='<div class="st"><div class="st-l">动作节奏</div><div class="st-v">'+e.tempo+'</div></div>';
+  h+='<div class="st"><div class="st-l">动作节奏</div><div class="st-v">'+e.tempo+'</div><div class="st-s">离心慢放是关键</div></div>';
   h+='</div>';
 
   h+='<div class="kp">💡 '+e.kp+'</div>';
@@ -569,9 +575,18 @@ function renderEx(){
   /* 绑定 */
   var v=$('#vidEl');
   v.onloadeddata=function(){$('#vbox').classList.add('ok');$('#vbox').classList.remove('err')};
-  v.onerror=function(){$('#vbox').classList.remove('ok');$('#vbox').classList.add('err')};
+  v.onerror=function(){
+    var e2=E[cur],i=srcIdx[e2.id]||0;
+    if(i<e2.srcs.length-1){
+      srcIdx[e2.id]=i+1;      /* 当前源失效 → 自动切换备用源 */
+      loadVideo();
+    }else{
+      $('#vbox').classList.remove('ok');
+      $('#vbox').classList.add('err');
+    }
+  };
   loadVideo();
-  $('#vRetry').onclick=function(){$('#vbox').classList.remove('err');loadVideo()};
+  $('#vRetry').onclick=function(){srcIdx[E[cur].id]=0;$('#vbox').classList.remove('err');loadVideo()};
   $('#agF').onclick=function(){setAngle('front')};
   $('#agS').onclick=function(){setAngle('side')};
   $('#wMinus').onclick=function(){wchg(-2.5)};
@@ -586,14 +601,23 @@ function renderEx(){
 }
 
 function loadVideo(){
-  var e=E[cur],v=$('#vidEl');
+  var e=E[cur],src=curSrc(e),v=$('#vidEl');
+  var hasSide=!!src.s;
+  var agS=$('#agS');
+  if(agS)agS.style.display=hasSide?'':'none';   /* 备用源无侧面时隐藏切换钮 */
+  if(!hasSide&&angle==='side'){
+    angle='front';
+    var agF=$('#agF');if(agF)agF.className='angle-btn on';
+  }
   $('#vbox').classList.remove('ok');
-  v.src=angle==='front'?e.front:e.side;
+  v.src=(angle==='side'&&hasSide)?src.s:src.f;
   v.load();
   var p=v.play();if(p&&p.catch)p.catch(function(){});
 }
 function setAngle(a){
   if(a===angle)return;
+  var src=curSrc(E[cur]);
+  if(a==='side'&&!src.s)return;
   angle=a;
   $('#agF').className='angle-btn'+(a==='front'?' on':'');
   $('#agS').className='angle-btn'+(a==='side'?' on':'');
@@ -609,7 +633,7 @@ function wchg(d){
   st.weights[id]=w;save();syncW();
 }
 
-/* 打卡状态同步（不重建视频） */
+/* 打卡状态同步（不重建视频，切换动作外不打断播放） */
 function syncDone(){
   var e=E[cur],d=gd(e.id),ad=d>=e.mx;
   var dots=$('#dots');dots.innerHTML='';
@@ -737,10 +761,10 @@ function openHist(){
   $('#hsTotal').textContent=h.length;
   $('#hsMonth').textContent=h.filter(function(x){return x.d.slice(0,7)===tm2}).length;
   $('#hsVol').textContent=h.reduce(function(a,x){return a+(x.vol||0)},0);
-  var L=$('#histList');
-  if(!h.length){L.innerHTML='<div class="hempty">还没有记录，完成今天的 20 组就是第一条 💪</div>'}
+  var L2=$('#histList');
+  if(!h.length){L2.innerHTML='<div class="hempty">还没有记录，完成今天的 20 组就是第一条 💪</div>'}
   else{
-    L.innerHTML=h.map(function(x){
+    L2.innerHTML=h.map(function(x){
       var m=x.sets+' 组';
       if(x.vol)m+=' · '+x.vol+' kg';
       if(x.min)m+=' · '+x.min+' 分钟';
@@ -762,7 +786,7 @@ function disarm(){
   r.classList.remove('armed');r.textContent='重置今日进度';delete r.dataset.armed;
   c.classList.remove('armed');c.textContent='清空历史';delete c.dataset.armed;
 }
-function armOr(btn,label,fn){
+function armOr(btn,fn){
   if(btn.dataset.armed){disarm();fn()}
   else{
     disarm();
@@ -771,7 +795,7 @@ function armOr(btn,label,fn){
   }
 }
 $('#opReset').onclick=function(){
-  armOr(this,'重置今日进度',function(){
+  armOr(this,function(){
     st.done={};st.warm={};st.cool={};st.startTs=null;st.lastTs=null;save();
     renderEx();rwarm();rcool();
     $('#histSheet').classList.remove('show');
@@ -779,7 +803,7 @@ $('#opReset').onclick=function(){
   });
 };
 $('#opClear').onclick=function(){
-  armOr(this,'清空历史',function(){
+  armOr(this,function(){
     st.history=[];save();usub();openHist();
     toast('历史已清空');
   });
