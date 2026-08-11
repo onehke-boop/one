@@ -329,6 +329,8 @@ kp:"后链之王，趁腰还有力气放在中段做"},
 tgt:"背阔肌、前锯肌、胸大肌下束",sets:"3组 × 12次",wt:"中等重量",mx:3,
 rest:75,tempo:"下放3秒 · 拉回2秒",repEst:12,volF:1,
 srcs:[
+{f:MW+'male-Recovery-dumbbell-pullover-eccentrics-front.mp4',s:MW+'male-Recovery-dumbbell-pullover-eccentrics-side.mp4'},
+{f:MW+'female-Recovery-dumbbell-pullover-eccentrics-front.mp4',s:MW+'female-Recovery-dumbbell-pullover-eccentrics-side.mp4'},
 {f:MW+'male-Dumbbells-dumbbell-pullover-front.mp4',s:MW+'male-Dumbbells-dumbbell-pullover-side.mp4'},
 {f:MW+'female-Dumbbells-dumbbell-pullover-front.mp4',s:MW+'female-Dumbbells-dumbbell-pullover-side.mp4'},
 {f:'https://experiencelife.lifetime.life/wp-content/uploads/2025/01/mj25-bid-pullover-one-db.mp4',s:null}
@@ -387,10 +389,12 @@ function calcVol(done,weights){
 function loadState(){
   var s=sGet()||{};
   s.done=s.done||{};s.weights=s.weights||{};s.warm=s.warm||{};s.cool=s.cool||{};
+  var valid={};E.forEach(function(e){valid[e.id]=1});
+  for(var k in s.done){if(!valid[k])delete s.done[k]}
   s.history=s.history||[];s.mute=!!s.mute;
   var t=todayStr();
   if(s.date&&s.date!==t){
-    var sets=0;for(var k in s.done)sets+=s.done[k];
+    var sets=0;for(var k2 in s.done)sets+=s.done[k2];
     if(sets>0)pushHistory(s,s.date,sets);
     s.done={};s.warm={};s.cool={};s.startTs=null;s.lastTs=null;
   }
@@ -519,7 +523,7 @@ function renderEx(){
   h+='<div class="vid-box" id="vbox">';
   h+='<video id="vidEl" autoplay loop muted playsinline preload="auto"></video>';
   h+='<div class="vspin"></div>';
-  h+='<div class="verr"><span>视频加载失败，请检查网络</span><button id="vRetry">重新加载</button></div>';
+  h+='<div class="verr"><span>该动作的在线视频源暂时不可用</span><button id="vRetry">重新加载</button></div>';
   h+='<div class="angle-bar">';
   h+='<button class="angle-btn'+(angle==='front'?' on':'')+'" id="agF">正面</button>';
   h+='<button class="angle-btn'+(angle==='side'?' on':'')+'" id="agS">侧面</button>';
